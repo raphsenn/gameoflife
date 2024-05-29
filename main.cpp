@@ -4,6 +4,6 @@
 
 int main() {
     TerminalManager terminalManager;
-    GameOfLife gol(terminalManager);
+    GameOfLife gol(&terminalManager);
     gol.run();
 }

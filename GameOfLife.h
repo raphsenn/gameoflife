@@ -10,13 +10,16 @@ private:
     // Pointer to TerminalManager object.
     TerminalManager *terminalManager_;
 
+    // Booleans for running and break state.
     bool isRunning = true;
+    bool isBreak = true;
+
+    void processUserInput(UserInput userInput);
 
 public:
     // Constructor.
-    GameOfLife(TerminalManager &terminalManager);
+    GameOfLife(TerminalManager *terminalManager);
 
-    void initGame();
     void run();
 };
 

@@ -3,6 +3,8 @@
 
 #include <ncurses.h>
 
+#include "./UserInput.h"
+
 class TerminalManager {
 
 public:
@@ -11,6 +13,9 @@ public:
     
     // Destructor, close ncurses.
     ~TerminalManager();
+
+    // Tracking user input.
+    UserInput getUserInput();
 
 private:
     int numRows_;

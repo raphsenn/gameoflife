@@ -20,3 +20,9 @@ TerminalManager::TerminalManager() {
 }
 
 TerminalManager::~TerminalManager() { endwin(); }
+
+UserInput TerminalManager::getUserInput() {
+  UserInput userInput;
+  userInput.keycode_ = getch();
+  return userInput;
+}

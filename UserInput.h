@@ -3,6 +3,8 @@
 class UserInput{
 
 public:
-    bool isPressed_q(int keycode);
+    int keycode_;
+    bool isPressed_Space();
+    bool isPressed_q();
 
 };
