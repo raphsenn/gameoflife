@@ -20,6 +20,15 @@ void GameOfLife::run() {
 
 }
 
+bool GameOfLife::cellIsAlive(int row, int col) {
+    return *(currentCellStateP + col + row * terminalManager_->getRows());
+}
+
+void GameOfLife::processUserInput(UserInput userInput) {
+    if (userInput.isPressed_q()) { isRunning = false; }
+    else if (userInput.isPressed_Space()) {isBreak = !(isBreak); }
+}
+
 void GameOfLife::draw() {
     // Draw boarder.
     int COLS = terminalManager_->getCols();
@@ -33,14 +42,16 @@ void GameOfLife::draw() {
         terminalManager_->drawPixel(ROWS - 1, col, terminalManager_->White);
     }
 
+    // Draw currentCellState
+    // Cell alive: Yellow colored.
+    // Cell dead: Purple colored.
+    for (int row = 1; row < ROWS - 1; row++) {
+        for (int col = 1; col < COLS - 1; col++) {
+            if (cellIsAlive(row, col)) {
+                terminalManager_->drawPixel(row, col, terminalManager_->Yellow);
+            } else { terminalManager_->drawPixel(row, col, terminalManager_->Purple); }
+        }
+    }
+
 
 }
-
-
-
-void GameOfLife::processUserInput(UserInput userInput) {
-    if (userInput.isPressed_q()) { isRunning = false; }
-    else if (userInput.isPressed_Space()) {isBreak = !(isBreak); }
-
-}
-

@@ -25,6 +25,9 @@ private:
     bool isRunning = true;
     bool isBreak = true;
 
+    // Returns wether a cell is dead (false) or alive (true).
+    bool cellIsAlive(int row, int col);
+
     // Percepts user inputs and acts.
     void processUserInput(UserInput userInput);
 
