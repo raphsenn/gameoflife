@@ -20,6 +20,19 @@ void GameOfLife::run() {
 
 }
 
+void GameOfLife::updateState() {
+    // Copy CurrentCellState into nextCellState and switch pointers.
+    for (int row = 1; row < terminalManager_->getRows() - 1; row++) {
+        for (int col  = 1; row < terminalManager_->getCols() - 1; col++) {
+            *(nextCellStateP + col + row * terminalManager_->getRows()) = *(currentCellStateP + col + row * terminalManager_->getRows()); 
+        }
+    }
+    // Switch pointers.
+    bool *tempP = currentCellStateP;
+    currentCellStateP = nextCellStateP;
+    nextCellStateP = tempP;
+}
+
 bool GameOfLife::cellIsAlive(int row, int col) {
     return *(currentCellStateP + col + row * terminalManager_->getRows());
 }

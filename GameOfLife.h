@@ -28,6 +28,9 @@ private:
     // Returns wether a cell is dead (false) or alive (true).
     bool cellIsAlive(int row, int col);
 
+    // Updates cell state.
+    void updateState();
+
     // Percepts user inputs and acts.
     void processUserInput(UserInput userInput);
 
