@@ -33,13 +33,25 @@ void GameOfLife::updateState() {
     nextCellStateP = tempP;
 }
 
-bool GameOfLife::cellIsAlive(int row, int col) {
+bool GameOfLife::getCell(int row, int col) {
     return *(currentCellStateP + col + row * terminalManager_->getRows());
 }
 
+void GameOfLife::setCell(int row, int col) {
+    *(currentCellStateP + col + row * terminalManager_->getRows()) = !*(currentCellStateP + col + row * terminalManager_->getRows());
+}
+
 void GameOfLife::processUserInput(UserInput userInput) {
+    // Handle key events. 
     if (userInput.isPressed_q()) { isRunning = false; }
     else if (userInput.isPressed_Space()) {isBreak = !(isBreak); }
+
+    // Handle Mouse events.
+    if (userInput.mouseClicked()) {
+        userInput.handleMouseEvent();
+        // Set cell at mouse position.
+        setCell(userInput.getMouseRow(), userInput.getMouseCol());
+    }
 }
 
 void GameOfLife::draw() {
@@ -54,17 +66,14 @@ void GameOfLife::draw() {
         terminalManager_->drawPixel(0, col, terminalManager_->White);
         terminalManager_->drawPixel(ROWS - 1, col, terminalManager_->White);
     }
-
     // Draw currentCellState
     // Cell alive: Yellow colored.
     // Cell dead: Purple colored.
     for (int row = 1; row < ROWS - 1; row++) {
         for (int col = 1; col < COLS - 1; col++) {
-            if (cellIsAlive(row, col)) {
+            if (getCell(row, col)) {
                 terminalManager_->drawPixel(row, col, terminalManager_->Yellow);
             } else { terminalManager_->drawPixel(row, col, terminalManager_->Purple); }
         }
     }
-
-
 }

@@ -10,6 +10,10 @@ TerminalManager::TerminalManager() {
   nodelay(stdscr, true);
   keypad(stdscr, true);
 
+  // Mouse events.
+  mousemask(ALL_MOUSE_EVENTS, NULL);
+  mouseinterval(0);
+
   // Initialize all the colors we need.
   start_color();
   

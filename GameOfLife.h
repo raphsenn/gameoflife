@@ -26,7 +26,10 @@ private:
     bool isBreak = true;
 
     // Returns wether a cell is dead (false) or alive (true).
-    bool cellIsAlive(int row, int col);
+    bool getCell(int row, int col);
+
+    // Set cell at row, col.
+    void setCell(int row, int col);
 
     // Updates cell state.
     void updateState();
