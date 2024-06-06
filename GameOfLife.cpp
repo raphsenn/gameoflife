@@ -6,6 +6,9 @@ GameOfLife::GameOfLife(TerminalManager *terminalManager) {
 
     currentCellStateP = currentCellState; 
     nextCellStateP = nextCellState;    
+
+    numRows_ = terminalManager_->getRows();
+    numCols_ = terminalManager_->getCols();
 }
 
 void GameOfLife::run() {
@@ -14,17 +17,17 @@ void GameOfLife::run() {
         // Listen for user input. 
         UserInput userInput = terminalManager_->getUserInput();
         processUserInput(userInput);
+        // updateState();
         draw();
         terminalManager_->refresh(); 
     }
-
 }
 
 void GameOfLife::updateState() {
     // Copy CurrentCellState into nextCellState and switch pointers.
     for (int row = 1; row < terminalManager_->getRows() - 1; row++) {
         for (int col  = 1; row < terminalManager_->getCols() - 1; col++) {
-            *(nextCellStateP + col + row * terminalManager_->getRows()) = *(currentCellStateP + col + row * terminalManager_->getRows()); 
+            *(nextCellStateP + col + row * terminalManager_->getCols()) = *(currentCellStateP + col + row * terminalManager_->getCols()); 
         }
     }
     // Switch pointers.
@@ -34,11 +37,11 @@ void GameOfLife::updateState() {
 }
 
 bool GameOfLife::getCell(int row, int col) {
-    return *(currentCellStateP + col + row * terminalManager_->getRows());
+    return *(currentCellStateP + col + row * (numCols_ - 1));
 }
 
 void GameOfLife::setCell(int row, int col) {
-    *(currentCellStateP + col + row * terminalManager_->getRows()) = !*(currentCellStateP + col + row * terminalManager_->getRows());
+    *(currentCellStateP + col + row * (numCols_ - 1)) = !*(currentCellStateP + col + row * (numCols_ - 1));
 }
 
 void GameOfLife::processUserInput(UserInput userInput) {
@@ -51,6 +54,7 @@ void GameOfLife::processUserInput(UserInput userInput) {
         userInput.handleMouseEvent();
         // Set cell at mouse position.
         setCell(userInput.getMouseRow(), userInput.getMouseCol());
+
     }
 }
 
@@ -76,4 +80,6 @@ void GameOfLife::draw() {
             } else { terminalManager_->drawPixel(row, col, terminalManager_->Purple); }
         }
     }
+
+
 }

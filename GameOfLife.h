@@ -7,6 +7,9 @@
 class GameOfLife{
 
 private:
+    int numRows_; // Num cells in row.
+    int numCols_; // Num cells in col.
+
     // Size of the world.
     static const int MAXCELLS = 10000;
 

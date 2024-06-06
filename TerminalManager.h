@@ -29,6 +29,8 @@ public:
 
     // Draw pixel.
     void drawPixel(int row, int col, int color);
+    // Draw text. 
+    void drawText(int row, int col, int color, char* text);
     void refresh();
 
     // Tracking user input.

@@ -49,6 +49,18 @@ void TerminalManager::drawPixel(int row, int col, int color) {
   mvprintw(row, 2 * col, "  ");
 }
 
+void TerminalManager::drawText(int row, int col, int color, char* text) {
+  // Select color.
+  if (color == White) { attron(COLOR_PAIR(1)); }
+  else if (color == Black) { attron(COLOR_PAIR(2)); }
+  else if (color == Purple) { attron(COLOR_PAIR(3)); }
+  else if (color == Yellow) { attron(COLOR_PAIR(4)); }
+
+  // Draw pixel on screen.
+  attron(A_REVERSE);
+  mvprintw(row, 2 * col, "%s", text);
+}
+
 void TerminalManager::refresh() {
   ::refresh();
 }
