@@ -10,6 +10,7 @@ public:
     int keycode_;
     bool isPressed_Space();
     bool isPressed_q();
+    bool isPressed_r();
     int getMouseCol();
     int getMouseRow();
     bool mouseClicked();  

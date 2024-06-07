@@ -8,6 +8,8 @@ bool UserInput::isPressed_Space() { return keycode_ == 32; }
 
 bool UserInput::isPressed_q() { return keycode_ == 113; }
 
+bool UserInput::isPressed_r() { return keycode_ == 114; }
+
 int UserInput::getMouseRow() { return mouseRow_; }
 
 int UserInput::getMouseCol() { return mouseCol_; }

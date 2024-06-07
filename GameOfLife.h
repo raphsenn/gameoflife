@@ -11,7 +11,7 @@ private:
     int numCols_; // Num cells in col.
 
     // Size of the world.
-    static const int MAXCELLS = 10000;
+    static const int MAXCELLS = 100000;
 
     // Current cell state and next cell state.
     bool currentCellState[MAXCELLS];
@@ -33,6 +33,9 @@ private:
 
     // Set cell at row, col.
     void setCell(int row, int col);
+
+    // Initializes cells randomly.
+    void setCellsRandomly(int probability=2);
 
     // Updates cell state.
     void updateState();

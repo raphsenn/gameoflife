@@ -1,6 +1,8 @@
 
 #include "./GameOfLife.h"
 
+#include <cstdlib>
+
 GameOfLife::GameOfLife(TerminalManager *terminalManager) { 
     terminalManager_ = terminalManager; 
 
@@ -17,7 +19,7 @@ void GameOfLife::run() {
         // Listen for user input. 
         UserInput userInput = terminalManager_->getUserInput();
         processUserInput(userInput);
-        // updateState();
+        updateState();
         draw();
         terminalManager_->refresh(); 
     }
@@ -25,9 +27,9 @@ void GameOfLife::run() {
 
 void GameOfLife::updateState() {
     // Copy CurrentCellState into nextCellState and switch pointers.
-    for (int row = 1; row < terminalManager_->getRows() - 1; row++) {
-        for (int col  = 1; row < terminalManager_->getCols() - 1; col++) {
-            *(nextCellStateP + col + row * terminalManager_->getCols()) = *(currentCellStateP + col + row * terminalManager_->getCols()); 
+    for (int row = 0; row < terminalManager_->getRows(); row++) {
+        for (int col  = 0; col < terminalManager_->getCols(); col++) {
+            *(nextCellStateP + col + row * (numCols_)) = *(currentCellStateP + col + row * numCols_); 
         }
     }
     // Switch pointers.
@@ -37,23 +39,34 @@ void GameOfLife::updateState() {
 }
 
 bool GameOfLife::getCell(int row, int col) {
-    return *(currentCellStateP + col + row * (numCols_ - 1));
+    return *(currentCellStateP + col + row * numCols_);
 }
 
 void GameOfLife::setCell(int row, int col) {
-    *(currentCellStateP + col + row * (numCols_ - 1)) = !*(currentCellStateP + col + row * (numCols_ - 1));
+    *(currentCellStateP + col + row * numCols_) = !*(currentCellStateP + col + row * numCols_);
+}
+
+
+void GameOfLife::setCellsRandomly(int probability) {
+    for (int i = 0; i < MAXCELLS; i++) {
+        *(currentCellStateP + i) = rand() % probability == 0 ? true: false;
+    }
+
 }
 
 void GameOfLife::processUserInput(UserInput userInput) {
     // Handle key events. 
     if (userInput.isPressed_q()) { isRunning = false; }
+    else if (userInput.isPressed_r()) { setCellsRandomly(); }
     else if (userInput.isPressed_Space()) {isBreak = !(isBreak); }
+
 
     // Handle Mouse events.
     if (userInput.mouseClicked()) {
         userInput.handleMouseEvent();
         // Set cell at mouse position.
         setCell(userInput.getMouseRow(), userInput.getMouseCol());
+        // setCell(2, 2);
 
     }
 }
