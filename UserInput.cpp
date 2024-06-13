@@ -14,17 +14,20 @@ int UserInput::getMouseRow() { return mouseRow_; }
 
 int UserInput::getMouseCol() { return mouseCol_; }
 
-bool UserInput::mouseClicked() { 
-    if (keycode_ == KEY_MOUSE) {
-        return true;
-    }
-    return false;
+bool UserInput::mouseClicked() { return isMouseEvent(keycode_); }
+
+bool UserInput::isMouseEvent(int keycode) {
+  if (keycode == KEY_MOUSE) {
+    handleMouseEvent();
+    return true;
+  }
+  return false;
 }
 
 void UserInput::handleMouseEvent() {
     MEVENT event;
     if (getmouse(&event) == OK) {
-        if (event.bstate & BUTTON1_RELEASED) {
+        if (event.bstate && BUTTON1_RELEASED) {
             mouseCol_ = event.x / 2;
             mouseRow_ = event.y;
         }

@@ -13,7 +13,8 @@ public:
     bool isPressed_r();
     int getMouseCol();
     int getMouseRow();
-    bool mouseClicked();  
+    bool mouseClicked();
+    bool isMouseEvent(int keycode); 
     void handleMouseEvent();
 
 

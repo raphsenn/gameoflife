@@ -10,8 +10,11 @@ private:
     int numRows_; // Num cells in row.
     int numCols_; // Num cells in col.
 
+    int lastClickedRow_;
+    int lastClickedCol_;
+
     // Size of the world.
-    static const int MAXCELLS = 100000;
+    static const int MAXCELLS = 1000000;
 
     // Current cell state and next cell state.
     bool currentCellState[MAXCELLS];
