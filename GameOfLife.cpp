@@ -49,6 +49,10 @@ void GameOfLife::setCell(int row, int col) {
     currentCellStateP[col + row * numCols_] = !currentCellStateP[col + row * numCols_];
 }
 
+int GameOfLife::numAliveNeighbors(int row, int col) {
+    int numAlive = 0;
+    // TODO:
+}
 
 void GameOfLife::setCellsRandomly(int probability) {
     for (int i = 0; i < MAXCELLS; i++) {
@@ -94,6 +98,6 @@ void GameOfLife::draw() {
             } else { terminalManager_->drawPixel(row, col, terminalManager_->Purple); }
         }
     }
-
+    // TODO: 
 
 }

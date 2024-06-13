@@ -37,6 +37,9 @@ private:
     // Set cell at row, col.
     void setCell(int row, int col);
 
+    // Returns number of alive neighbors of a cell.
+    int numAliveNeighbors(int row, int col);
+
     // Initializes cells randomly.
     void setCellsRandomly(int probability=2);
 
