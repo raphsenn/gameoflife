@@ -1,8 +1,8 @@
 
 compile:
-	gcc -c life.c
-	gcc -c run.c
-	gcc -o run run.o life.o
+	clang -c simulation.c
+	clang -c run.c
+	clang -o run simulation.o run.o
 
 clean:
 	rm -f *.o

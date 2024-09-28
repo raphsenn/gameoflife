@@ -1,6 +1,6 @@
 // Author: Raphael Senn
 
-#include "./libc.h"
+#include "simulation.h"
 
 void init_terminal() {}
 

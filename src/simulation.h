@@ -1,7 +1,7 @@
 // Author: Raphael Senn
 
-#ifndef LIFE_H
-#define LIFE_H
+#ifndef SIMULATION_H
+#define SIMULATION_H
 
 #include <ncurses.h>
 
@@ -13,14 +13,14 @@
 
 // Current cell generation.
 extern int generation;
-const int MAX_NUM_CELLS = 10000;
+extern const int MAX_NUM_CELLS;
 
 // Cells current generation.
-extern bool current_cells[MAX_NUM_CELLS];
+extern bool current_cells[];
 extern bool *ptr_current_cells;
 
 // Cells next generation.
-extern bool next_cells[MAX_NUM_CELLS];
+extern bool next_cells[];
 extern bool *ptr_next_cells;
 
 // Window settings.
@@ -50,4 +50,4 @@ bool invert_cell();
 // Sets randomly (with given probability) cell states to alive.
 void set_cells_random(float prob);
 
-#endif // LIFE_h
+#endif // SIMULATION_H

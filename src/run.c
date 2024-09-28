@@ -1,8 +1,6 @@
 // Author: Raphael Senn
 
-#include "./life.h"
+#include "simulation.h"
 
 int main() {
-
-    return 1;
 }
