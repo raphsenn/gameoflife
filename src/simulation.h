@@ -3,7 +3,7 @@
 #ifndef SIMULATION_H
 #define SIMULATION_H
 
-#include <ncurses.h>
+#include <stdbool.h>
 
 // ____________________________________________________________________________
 // Global variables.
@@ -13,15 +13,16 @@
 
 // Current cell generation.
 extern int generation;
+extern int num_cells_alive;
 extern const int MAX_NUM_CELLS;
 
 // Cells current generation.
-extern bool current_cells[];
-extern bool *ptr_current_cells;
+extern int current_cells[];
+extern int *ptr_current_cells;
 
 // Cells next generation.
-extern bool next_cells[];
-extern bool *ptr_next_cells;
+extern int next_cells[];
+extern int *ptr_next_cells;
 
 // Window settings.
 
