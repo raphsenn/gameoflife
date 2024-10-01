@@ -10,6 +10,8 @@
 int generation;
 int num_cells_alive;
 int const MAX_NUM_CELLS = 10000;
+int SIM_SPEED = 50000;
+int PROP_ALIVE = 5;
 
 int current_cells[MAX_NUM_CELLS];
 int *ptr_current_cells;
@@ -32,8 +34,9 @@ void init_terminal() {
     nodelay(stdscr, true);
     keypad(stdscr, true);
     start_color();
-    init_pair(1, COLOR_WHITE, COLOR_BLACK); // White cell: alive, dead cell: black
-    init_pair(2, COLOR_BLACK, COLOR_BLACK); // Background
+    init_pair(1, COLOR_BLACK, COLOR_BLACK); // COLOR_BLACK
+    init_pair(2, COLOR_WHITE, COLOR_WHITE); // COLOR_WHITE
+    init_pair(3, COLOR_WHITE, COLOR_BLACK); // TEXT_COLOR
 }
 
 // ____________________________________________________________________________
@@ -62,15 +65,33 @@ void draw_cells() {
             }
             // Cell is alive.
             else if (current_cell_state == 1) {
-                attron(COLOR_PAIR(1)); 
+                attron(COLOR_PAIR(2)); 
                 mvprintw(row, 2 * col, "  "); }
-                attroff(COLOR_PAIR(1)); 
+                attroff(COLOR_PAIR(2)); 
         }
     }
 }
 
 // ____________________________________________________________________________
-void draw_text(int x, int y, char text[]) {}
+void draw_text(int x, int y, char text[], int number) {
+    attron(COLOR_PAIR(3));
+    mvprintw(x, y, text, number);
+    attroff(COLOR_PAIR(3));
+}
+
+// ____________________________________________________________________________
+void handle_user_input(int key) {
+    /*
+    Key space:  32 in ASCII
+    Key q:      113 in ASCII
+    Key r:      114 in ASCII
+    */
+    switch(key) {
+        case 32: is_paused = !(is_paused); break;
+        case 113: is_running = false; break;
+        case 114: set_cells_random(PROP_ALIVE); break;
+    }
+}
 
 // ____________________________________________________________________________
 int get_cell(int x, int y) {
@@ -86,35 +107,76 @@ void set_cell(int x, int y, int cell_value) {
 void set_cells_random(int prob) {
     for (int cell=0; cell < MAX_NUM_CELLS; cell++) {
         int rand_cell_val = rand() % prob;
-        if (rand_cell_val == 0) {*(current_cells + cell) = 0;}
-        else { *(current_cells + cell) = 1; }
+        if (rand_cell_val == 0) { *(current_cells + cell) = 1; }
+        else { *(current_cells + cell) = 0; }
     }
 }
 
 // ____________________________________________________________________________
-void next_generation() {}
+int num_alive_neighors(int row, int col) {
+    int aliveNeighbors = 0;
+    for (int i = row - 1; i <= row + 1; i++) {
+        for (int j = col - 1; j <= col + 1; j++) {
+        // Skip the current cell or cells outside the grid boundaries
+        if ((i == row && j == col) || i < 0 || i >= y_cord || j < 0 || j >= x_cord) {
+            continue;
+        }
+        if (get_cell(i, j) == 1) { aliveNeighbors++; }
+        }
+    }
+  return aliveNeighbors;
+
+}
+
+
+// ____________________________________________________________________________
+void next_generation() {
+    for (int row = 0; row < y_cord; row++) {
+        for (int col = 0; col < x_cord; col++) {
+            int aliveNeighbors = num_alive_neighors(row, col);
+            int currentCell = *(ptr_current_cells + col + row * x_cord);
+            if (!currentCell && aliveNeighbors == 3) {
+                *(ptr_next_cells + col + row * x_cord) = true;
+            } else if (currentCell && aliveNeighbors < 2 || currentCell && aliveNeighbors > 3) {
+                *(ptr_next_cells + col + row * x_cord) = false;
+            } else {
+                *(ptr_next_cells + col + row * x_cord) = currentCell;
+            }
+        }
+    }
+    // Switch pointers. 
+    int* ptr_temp = ptr_current_cells;
+    ptr_current_cells = ptr_next_cells;
+    ptr_next_cells = ptr_temp;
+}
 
 // ____________________________________________________________________________
 void run() {
+    // Initialize terminal and game settings. 
     init_terminal();
     init_simulation();
-    set_cells_random(5);
-    int speed = 50000; // 50 Milliseconds.
+    
     // Game loop.
     while (is_running) {
         int key = getch();
-        // bool userInput = processUserInput(key);
-        // showState();
+        handle_user_input(key); 
+
+        // Drawing. 
         draw_cells();
-        // updateState();
-        usleep(speed);
+        draw_text(0, 0, "Generation: ", generation);
+        draw_text(0, 15, "Cells alive: ", num_cells_alive);
+        
+        next_generation(); 
+        usleep(SIM_SPEED);
         generation++;
-        // Game paused.
+        
+        // Pause loop.
         while (is_paused) {
         int key_pause = getch();
-        // bool userInput = processUserInput(key_pause);
-        // showState();
+            handle_user_input(key); 
+            draw_cells();
         }
     }
+    // Closing ncurses.
     endwin();
 }

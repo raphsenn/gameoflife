@@ -15,6 +15,8 @@
 extern int generation;
 extern int num_cells_alive;
 extern const int MAX_NUM_CELLS;
+extern int SIM_SPEED;
+extern int PROP_ALIVE;
 
 // Cells current generation.
 extern int current_cells[];
@@ -46,7 +48,10 @@ void init_simulation();
 void draw_cells();
 
 // Draw text at give position x and y.
-void draw_text(int x, int y, char text[]);
+void draw_text(int x, int y, char text[], int number);
+
+// Catching user input (keys pressed).
+void handle_user_input(int key);
 
 // Returns cell state.
 int get_cell(int x, int y);
@@ -61,6 +66,9 @@ void set_cell(int x, int y, int cell_value);
 // prob 5 = 0.2
 // prob n = 1 / n
 void set_cells_random(int prob);
+
+// Returns number of alive neighbors of a cell.
+int num_alive_neighbors(int x, int y);
 
 // Changes pointers from current cell to next cell.
 void next_generation();
