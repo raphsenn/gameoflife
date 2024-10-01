@@ -28,8 +28,11 @@ extern int *ptr_next_cells;
 
 // Window settings.
 
-extern int x_cord;
-extern int y_cord;
+extern int x_cord_term;
+extern int y_cord_term;
+
+extern int x_cord_sim;
+extern int y_cord_sim;
 
 extern bool is_running; // Simulation loop.
 extern bool is_paused; // Simulation paused.
@@ -48,16 +51,16 @@ void init_simulation();
 void draw_cells();
 
 // Draw text at give position x and y.
-void draw_text(int x, int y, char text[], int number);
+void draw_text(int row, int col, char text[], int number);
 
 // Catching user input (keys pressed).
 void handle_user_input(int key);
 
 // Returns cell state.
-int get_cell(int x, int y);
+int get_cell(int row, int col);
 
 // Set cell state to a value.
-void set_cell(int x, int y, int cell_value);
+void set_cell(int row, int col, int cell_value);
 
 // Sets randomly (with given probability) cell states to alive.
 // prob 1 = 1.0
@@ -68,10 +71,16 @@ void set_cell(int x, int y, int cell_value);
 void set_cells_random(int prob);
 
 // Returns number of alive neighbors of a cell.
-int num_alive_neighbors(int x, int y);
+int num_alive_neighbors(int row, int col);
+
+// Returns number of living cells.
+int get_cells_alive();
 
 // Changes pointers from current cell to next cell.
 void next_generation();
+
+// Drawing.
+void render_frame();
 
 // Starts the simulation.
 void run();

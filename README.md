@@ -39,6 +39,7 @@ Initial state is random (you can choose probability for: cell alive)
 
 ## Usage
 
+
 ### Compile and link
 
 ```concole
