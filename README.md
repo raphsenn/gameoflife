@@ -1,5 +1,9 @@
 # clife
-clife is an artificial life simulator (game of life,  langton's ant, ...) inside the terminal using C and ncurses libary.
+clife is an artificial life simulator (game of life) inside the terminal using C and ncurses libary.
+
+![gif](/res/gameoflife.gif)
+
+* Note: GIF with 10fps (not accurate to real simulation in terminal)
 
 ## Dependencies
 
@@ -35,21 +39,24 @@ The universe of the Game of Life is an infinite, two-dimensional orthogonal grid
 
 Initial state is random (you can choose probability for: cell alive)
 
-## Langton's ants
-
 ## Usage
 
+### Commands in Simulation
+
+* Press q to quit
+* Press 'space' to start or pause the simulation
+* Press r to create random cells
 
 ### Compile and link
 
 ```concole
 gcc -c simulation.c
-gcc -c run.c
-gcc -o run simulation.o run.o -lncurses
+gcc -c main.c
+gcc -o main simulation.o run.o -lncurses
 ```
 
 ### Execute
 
 ```concole
-./run
+./main
 ```

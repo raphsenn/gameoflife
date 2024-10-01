@@ -36,13 +36,14 @@ void init_terminal() {
     start_color();
     init_pair(1, COLOR_BLACK, COLOR_BLACK); // COLOR_BLACK
     init_pair(2, COLOR_WHITE, COLOR_WHITE); // COLOR_WHITE
-    init_pair(3, COLOR_WHITE, COLOR_BLACK); // TEXT_COLOR
+    init_pair(3, COLOR_GREEN, COLOR_BLACK); // TEXT_COLOR (GREEN)
 }
 
 void init_simulation() {
     x_cord_term = COLS / 2;
     y_cord_term = LINES;
 
+    // Need it maybie later.
     x_cord_sim = x_cord_term;
     y_cord_sim= y_cord_term; 
     
@@ -156,9 +157,10 @@ void next_generation() {
 
 void render_frame() {
     draw_cells();
+    draw_text(0, x_cord_term - 7, "Game of Life", generation);
     draw_text(0, 0, "Generation: %d", generation);
-    draw_text(0, 20, "Cells alive: %d", num_cells_alive);
-    draw_text(0, 40, "Paused: %d", is_paused);
+    draw_text(1, 0, "Cells alive: %d", num_cells_alive);
+    draw_text(2, 0, "Paused: %d", is_paused);
 }
 
 void run() {
