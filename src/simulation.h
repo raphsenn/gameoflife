@@ -28,14 +28,13 @@ extern int *ptr_next_cells;
 
 // Window settings.
 
-extern int x_cord_term;
-extern int y_cord_term;
+// Maximal x, y coordinates of the window.
+extern int x_cord;
+extern int y_cord;
 
-extern int x_cord_sim;
-extern int y_cord_sim;
-
-extern bool is_running; // Simulation loop.
-extern bool is_paused; // Simulation paused.
+// For checking, if game is paused or running.
+extern bool is_running;
+extern bool is_paused;
 
 // ____________________________________________________________________________
 // Terminal stuff.

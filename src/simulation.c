@@ -18,11 +18,8 @@ int *ptr_current_cells;
 int next_cells[MAX_NUM_CELLS];
 int *ptr_next_cells;
 
-int x_cord_term;
-int y_cord_term;
-
-int x_cord_sim;
-int y_cord_sim;
+int x_cord;
+int y_cord;
 
 bool is_paused;
 bool is_running;
@@ -40,13 +37,9 @@ void init_terminal() {
 }
 
 void init_simulation() {
-    x_cord_term = COLS / 2;
-    y_cord_term = LINES;
+    x_cord = COLS / 2;
+    y_cord = LINES;
 
-    // Need it maybie later.
-    x_cord_sim = x_cord_term;
-    y_cord_sim= y_cord_term; 
-    
     is_paused = true;
     is_running = true;
 
@@ -60,8 +53,8 @@ void init_simulation() {
 }
 
 void draw_cells() {
-    for (int row = 0; row < y_cord_sim; row++) {
-        for (int col = 0; col < x_cord_sim; col++) {
+    for (int row = 0; row < y_cord; row++) {
+        for (int col = 0; col < x_cord; col++) {
             int current_cell_state = get_cell(row, col);
             // Cell is dead. 
             if (current_cell_state == 0) {
@@ -98,11 +91,11 @@ void handle_user_input(int key) {
 }
 
 int get_cell(int row, int col) {
-    return *(current_cells + col + row * x_cord_sim);
+    return *(current_cells + col + row * x_cord);
 }
 
 void set_cell(int row, int col, int cell_value) {
-    *(current_cells + col + row * x_cord_sim) = cell_value;
+    *(current_cells + col + row * x_cord) = cell_value;
 }
 
 void set_cells_random(int prob) {
@@ -116,7 +109,7 @@ int num_alive_neighors(int row, int col) {
     for (int y = row - 1; y <= row + 1; y++) {
         for (int x = col - 1; x <= col + 1; x++) {
         // Skip the current cell or cells outside the grid boundaries
-        if ((y == row && x == col) || y < 0 || y >= y_cord_sim || x < 0 || x >= x_cord_sim) {
+        if ((y == row && x == col) || y < 0 || y >= y_cord || x < 0 || x >= x_cord) {
             continue;
         }
         if (get_cell(y, x) == 1) { alive_neighbors++; }
@@ -127,25 +120,25 @@ int num_alive_neighors(int row, int col) {
 
 int get_cells_alive() {
     int living_cells = 0; 
-     for (int row = 0; row < y_cord_sim; row++) {
-        for (int col = 0; col < x_cord_sim; col++) { 
-            if (*(current_cells + row + col * x_cord_sim) == 1) { living_cells++; }
+     for (int row = 0; row < y_cord; row++) {
+        for (int col = 0; col < x_cord; col++) { 
+            if (*(current_cells + row + col * x_cord) == 1) { living_cells++; }
         }
     }
     return living_cells;
 }
 
 void next_generation() {
-    for (int row = 0; row < y_cord_sim; row++) {
-        for (int col = 0; col < x_cord_sim; col++) {
+    for (int row = 0; row < y_cord; row++) {
+        for (int col = 0; col < x_cord; col++) {
             int alive_neighbors = num_alive_neighors(row, col);
-            int current_cell = *(ptr_current_cells + col + row * x_cord_sim);
+            int current_cell = *(ptr_current_cells + col + row * x_cord);
             if (current_cell + alive_neighbors == 3) {
-                *(ptr_next_cells + col + row * x_cord_sim) = 1;
+                *(ptr_next_cells + col + row * x_cord) = 1;
             } else if (current_cell && alive_neighbors < 2 || current_cell && alive_neighbors > 3) {
-                *(ptr_next_cells + col + row * x_cord_sim) = 0;
+                *(ptr_next_cells + col + row * x_cord) = 0;
             } else {
-                *(ptr_next_cells + col + row * x_cord_sim) = current_cell;
+                *(ptr_next_cells + col + row * x_cord) = current_cell;
             }
         }
     }
@@ -157,7 +150,7 @@ void next_generation() {
 
 void render_frame() {
     draw_cells();
-    draw_text(0, x_cord_term - 7, "Game of Life", generation);
+    draw_text(0, x_cord - 7, "Game of Life", generation);
     draw_text(0, 0, "Generation: %d", generation);
     draw_text(1, 0, "Cells alive: %d", num_cells_alive);
     draw_text(2, 0, "Paused: %d", is_paused);
